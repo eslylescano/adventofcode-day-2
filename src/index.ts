@@ -52,3 +52,29 @@ export function possibleGamesSum(gamesData: { [gameId: number]: { [color: string
 }
 
 
+export function minCubesRequired(gamesData: { [gameId: number]: { [color: string]: number }[][] }): number {
+    let sum = 0;
+
+    for (const gameId in gamesData) {
+        const game = gamesData[gameId];
+        const minCounts: { [color: string]: number } = {};
+
+        for (const subsets of game) {
+            for (const subset of subsets) {
+                for (const color in subset) {
+                    const count = subset[color];
+                    if (!(color in minCounts) || count > minCounts[color]) {
+                        minCounts[color] = count;
+                    }
+                }
+            }
+        }
+
+        const power = minCounts['red'] * minCounts['green'] * minCounts['blue'];
+        sum += power;
+    }
+
+    return sum;
+}
+
+
